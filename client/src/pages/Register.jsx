@@ -1,9 +1,10 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {styled} from "styled-components";
 import Logo from "../assets/logo.png";
 import { useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
 const Register=()=>
 {
     const [user,setUser]=useState({
@@ -12,7 +13,7 @@ const Register=()=>
         password:"",
         confirmpassword:"",
     });
-
+const navigate=useNavigate();
     const toastOptions={
         position:"top-right",
         autoClose:8000,
@@ -33,10 +34,34 @@ const Register=()=>
     }
 
 
-    const handleSubmit=(event)=>
+    const handleSubmit=async(event)=>
     {
         event.preventDefault();
-        handleValidation();
+        if(handleValidation())
+        {
+            //calling api for posting registration data
+           
+            const response=await fetch(`http://localhost:3000/api/auth/register`,{
+              method:"POST",
+              headers:{
+                "Content-Type":"application/json"
+              },
+              body:JSON.stringify(user),
+            });
+            const res_data=await response.json();
+            console.log(res_data);
+            if(res_data.status===true)
+            {
+              localStorage.setItem("chat-app-user",JSON.stringify(user))
+              toast.success("Registration successfull",toastOptions);
+              navigate("/");
+            }
+            else{
+              toast.error(res_data.message,toastOptions);
+            }
+            
+            
+        }
     }
 
   const handleValidation=()=>
@@ -57,7 +82,7 @@ const Register=()=>
     {toast.error("Email is requird",toastOptions)
     return false;}
     
-
+return true;
 
 
   }

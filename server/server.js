@@ -1,13 +1,20 @@
-
+require("dotenv").config();
 const express=require("express");
 const cors=require("cors");
 const app=express();
+const userRoutes=require("./routes/userroutes");
 const connectionDb=require("./utils/connection");
-require("dotenv").config();
-app.get("/",(req,res)=>
-{
-    res.send("hello");
-})
+
+
+
+const corsOptions={
+    origin:'*',
+    method:"GET,POST,PUT,DELETE,HEAD",
+    credentials:true,
+}
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use("/api/auth",userRoutes);
 
 connectionDb().then(
     app.listen(process.env.PORT,()=>
