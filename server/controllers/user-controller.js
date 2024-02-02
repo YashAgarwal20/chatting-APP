@@ -1,5 +1,5 @@
 const User=require("../models/use-model");
-
+const bcrypt=require("bcrypt");
 const Register=async(req,res,next)=>
 {
     try {
@@ -15,13 +15,38 @@ const Register=async(req,res,next)=>
         return res.json({message:"Email already exixst",status:false});
     }
 
-    const data=await User.create({username,email,password});
-    delete data.password;
-    res.json({status:true,messge:data});
+    const user=await User.create({username,email,password})
+    delete user.password;
+    return res.json({status:true,user});
     } catch (error) {
         next(error);
     }
     
 
 }
-module.exports=Register;
+
+const Login=async(req,res,next)=>
+{
+    try {
+        const {username,password}=req.body;
+    const isusernameExist=await User.findOne({username});
+    if(!isusernameExist)
+    {
+        return res.json({message:"Username doesnot exists",status:false});
+    }
+
+    const ispassword=await bcrypt.compare(password,isusernameExist.password);
+    if(!ispassword)
+    {
+        res.json({message:"Invalid credentials",status:false});
+    }
+    const user=await User.findOne({username});
+    delete user.password;
+    return res.json({status:true,user});
+    } catch (error) {
+        next(error);
+    }
+
+
+}
+module.exports={Register,Login};

@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Register=()=>
 {
-    const [user,setUser]=useState({
+    const [values,setValue]=useState({
         username:"",
         email:"",
         password:"",
@@ -25,8 +25,8 @@ const navigate=useNavigate();
     {
         const name=event.target.name;
         const value=event.target.value;
-        setUser({
-            ...user,
+        setValue({
+            ...values,
             [name]:value,
 
         })
@@ -40,24 +40,25 @@ const navigate=useNavigate();
         if(handleValidation())
         {
             //calling api for posting registration data
-           
+           const {username,email,password}=values;
             const response=await fetch(`http://localhost:3000/api/auth/register`,{
               method:"POST",
               headers:{
                 "Content-Type":"application/json"
               },
-              body:JSON.stringify(user),
+              body:JSON.stringify(values),
             });
-            const res_data=await response.json();
-            console.log(res_data);
-            if(res_data.status===true)
+            const data=await response.json();
+           
+            if(data.status===true)
             {
-              localStorage.setItem("chat-app-user",JSON.stringify(user))
+              
+              localStorage.setItem("chat-app-user",JSON.stringify(data.user));
               toast.success("Registration successfull",toastOptions);
               navigate("/");
             }
             else{
-              toast.error(res_data.message,toastOptions);
+              toast.error(data.message,toastOptions);
             }
             
             
@@ -66,7 +67,7 @@ const navigate=useNavigate();
 
   const handleValidation=()=>
   {
-    const {username,email,password,confirmpassword}=user;
+    const {username,email,password,confirmpassword}=values;
     if(password!==confirmpassword)
     {
         toast.error("password and confirm password must be same",toastOptions)
@@ -75,8 +76,8 @@ const navigate=useNavigate();
     else if(username.length<3)
     {toast.error("Username must be greater than 3 characters",toastOptions)
      return false;}
-    else if(password.length<3)
-    {toast.error("Password must be greater than 3 characters",toastOptions)
+    else if(password.length<8)
+    {toast.error("Password must be greater than  8 characters",toastOptions)
     return false;}
     else if(email==="")
     {toast.error("Email is requird",toastOptions)
@@ -102,7 +103,7 @@ return true;
     type="text" 
     placeholder="Username" 
     name="username" 
-    value={user.username}
+    value={values.username}
     onChange={handleInput} 
     />
 
@@ -110,7 +111,7 @@ return true;
     type="email" 
     placeholder="Email" 
     name="email" 
-    value={user.email}
+    value={values.email}
     onChange={handleInput} 
     />
 
@@ -118,14 +119,14 @@ return true;
     type="password" 
     placeholder="Password" 
     name="password" 
-    value={user.password}
+    value={values.password}
     onChange={handleInput} 
     />
     <input 
     type="password" 
     placeholder="Confirm Password" 
     name="confirmpassword" 
-    value={user.confirmpassword}
+    value={values.confirmpassword}
     onChange={handleInput} 
     />
     
