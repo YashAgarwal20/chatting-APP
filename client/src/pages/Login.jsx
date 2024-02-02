@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import {styled} from "styled-components";
 import Logo from "../assets/logo.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -12,7 +12,17 @@ const Login=()=>
         password:"",
         
     });
-const navigate=useNavigate();
+    const navigate=useNavigate();
+
+    useEffect(()=>
+    {
+      if(localStorage.getItem('chat-app-user'))
+      {
+        navigate("/");
+      }
+
+    },[]);
+
     const toastOptions={
         position:"top-right",
         autoClose:8000,
