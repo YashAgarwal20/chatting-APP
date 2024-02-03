@@ -22,11 +22,14 @@ const SetAvatar=()=>
         theme:"dark",
     }
 
+    //if no avatar set then navigate to login page
     useEffect(()=>{
         if(!localStorage.getItem("chat-app-user")){
             navigate("/login");
         }
     },[]);
+
+    //to store the selectedavatar in database
     const setProfilePicture=async()=>{
         if(selectedAvatar===undefined){
             toast.error("Please select an avatar",toastOptions);
@@ -53,6 +56,8 @@ const SetAvatar=()=>
 
         }
     };
+
+    //getting avatars frm api
     useEffect(() => {
         async function fetchData() {
           const data = [];

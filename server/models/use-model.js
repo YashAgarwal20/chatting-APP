@@ -5,7 +5,7 @@ const userSchema=new mongoose.Schema({
     email:{type:String,required:true,unique:true,max:50},
     password:{type:String,required:true,min:8},
     isAvatarImageSet:{type:Boolean,default:false},
-    AvatarImage:{type:String,default:""},
+    avatarImage:{type:String,default:""},
     
 
 });

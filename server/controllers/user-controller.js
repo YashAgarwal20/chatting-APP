@@ -49,4 +49,24 @@ const Login=async(req,res,next)=>
 
 
 }
-module.exports={Register,Login};
+const Avatar=async(req,res,next)=>
+{
+    try {
+        const userId=req.params.id;
+        const avatarImage=req.body.image;
+        const userData=await User.findByIdAndUpdate(userId,{
+            isAvatarImageSet:true,
+            avatarImage,
+        });
+    
+        return res.json({
+            isSet:true,
+            image:avatarImage,
+        });
+        
+    } catch (error) {
+        next(error);
+    }
+
+}
+module.exports={Register,Login,Avatar};
