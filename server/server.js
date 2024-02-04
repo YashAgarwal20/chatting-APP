@@ -3,6 +3,7 @@ const express=require("express");
 const cors=require("cors");
 const app=express();
 const userRoutes=require("./routes/userroutes");
+const messageRoutes=require("./routes/messages-routes");
 const connectionDb=require("./utils/connection");
  
 
@@ -15,6 +16,7 @@ const corsOptions={
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use("/api/auth",userRoutes);
+app.use("/api/messages",messageRoutes)
 
 connectionDb().then(
     app.listen(process.env.PORT,()=>

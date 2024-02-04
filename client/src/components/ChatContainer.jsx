@@ -8,29 +8,30 @@ import ChatInput from './ChatInput';
 
 
 
-const ChatContainer = ({ currentChat, currentuser, socket }) => {
-//   const [messages, setMessages] = useState([]);
+const ChatContainer = ({ currentChat, currentuser, }) => {
+  const [messages, setMessages] = useState([]);
 //   const [arrivalMessage, setArrivalMessage] = useState(null);
 //   const scrollRef = useRef();
 
-//   useEffect(() => {
-//     async function func() {
-//       if (currentChat) {
-//         const response = await axios.post(getAllMessagesRoute, {
-//           from: currentuser._id,
-//           to: currentChat._id,
+  useEffect(() => {
+    async function func() {
+      if (currentChat) {
+        const response = await axios.post("http://localhost:3000/api/messages/getmsg", {
+          from: currentuser._id,
+          to: currentChat._id,
 
-//         });
-//         setMessages(response.data);
-//       }
-//     };
-//     func();
-//   }, [currentChat])
+        });
+        setMessages(response.data);
+      }
+    };
+    func();
+  }, [currentChat])
 
 
 
 
   const handleSendMsg = async (msg) => {
+    
     // const data = await JSON.parse(
     //   localStorage.getItem("chat-app-user")
     // );
@@ -40,11 +41,11 @@ const ChatContainer = ({ currentChat, currentuser, socket }) => {
     //   msg,
     // });
 
-    // await axios.post(sendMessageRoute, {
-    //   from: currentuser._id,
-    //   to: currentChat._id,
-    //   message: msg,
-    // });
+    await axios.post("http://localhost:3000/api/messages/addmessage", {
+      from: currentuser._id,
+      to: currentChat._id,
+      message: msg,
+    });
     // const msgs = [...messages];
     // msgs.push({ fromSelf: true, message: msg });
     // setMessages(msgs);
@@ -87,7 +88,7 @@ const ChatContainer = ({ currentChat, currentuser, socket }) => {
               <Logout />
             </div>
             <div className='chat-messages'>
-              {/* {messages?.map((message) => {
+              {messages?.map((message) => {
                 return (
                   <div ref={scrollRef} key={uuidv4()}>
                     <div
@@ -100,7 +101,7 @@ const ChatContainer = ({ currentChat, currentuser, socket }) => {
                     </div>
                   </div>
                 );
-              })} */}
+              })}
             </div>
             <ChatInput handleSendMsg={handleSendMsg} />
           </Container>
