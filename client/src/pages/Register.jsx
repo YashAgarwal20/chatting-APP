@@ -4,7 +4,7 @@ import Logo from "../assets/logo.png";
 import { useEffect, useState } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import axios from "axios"
 const Register=()=>
 {
     const [values,setValue]=useState({
@@ -36,7 +36,8 @@ const navigate=useNavigate();
     {
       if(localStorage.getItem('chat-app-user'))
       {
-        navigate("/");
+        navigate("/login");
+        
       }
 
     },[]);
@@ -48,14 +49,13 @@ const navigate=useNavigate();
         {
             //calling api for posting registration data
            const {username,email,password}=values;
-            const response=await fetch(`http://localhost:3000/api/auth/register`,{
-              method:"POST",
-              headers:{
-                "Content-Type":"application/json"
-              },
-              body:JSON.stringify(values),
+            const {data}=await axios.post("http://localhost:3000/api/auth/register",{
+              username,email,password,
             });
-            const data=await response.json();
+            
+              
+             
+            
            
             if(data.status===true)
             {
@@ -64,7 +64,7 @@ const navigate=useNavigate();
               toast.success("Registration successfull",toastOptions);
               navigate("/");
             }
-            else{
+            if(data.status===false){
               toast.error(data.message,toastOptions);
             }
             

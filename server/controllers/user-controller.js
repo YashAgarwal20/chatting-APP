@@ -4,6 +4,7 @@ const Register=async(req,res,next)=>
 {
     try {
         const {username,email,password}=req.body;
+        
     const isusernameExist=await User.findOne({username});
     if(isusernameExist)
     {

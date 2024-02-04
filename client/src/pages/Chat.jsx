@@ -8,6 +8,7 @@ const Chat=()=>
 
   const [contacts,setContacts]=useState([]);
   const [currentuser,SetCurrentUser]=useState(undefined);
+  const [currentChat,setCurrentChat]=useState(undefined);
   const navigate=useNavigate();
 
   // to get cuurent user which is logged in
@@ -44,14 +45,18 @@ useEffect(()=>{
   contactfetch();
 },[currentuser]);
 
+const handleChatChange=(chat)=>{
+  setCurrentChat(chat);
+}
 
 
   return(
     <Conatiner>
-      <div className="container"></div>
-       <Contacts contacts={contacts} currentuser={currentuser}></Contacts>
+      <div className="container">
+        
+       <Contacts contacts={contacts} currentuser={currentuser} changeChat={handleChatChange}></Contacts>
        
-      
+       </div>
     </Conatiner>
   )
 };

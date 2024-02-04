@@ -4,7 +4,7 @@ const cors=require("cors");
 const app=express();
 const userRoutes=require("./routes/userroutes");
 const connectionDb=require("./utils/connection");
-
+ 
 
 
 const corsOptions={
@@ -21,5 +21,5 @@ connectionDb().then(
     {
         console.log(`server running on port ${process.env.PORT}`);
     })
-)
+).catch((err)=>{console.log(err.message)});
 
