@@ -5,13 +5,13 @@ import styled from 'styled-components';
 import axios from 'axios';
 import Logout from '../components/Logout';
 import ChatInput from './ChatInput';
+import {v4 as uuidv4} from "uuid";
 
 
-
-const ChatContainer = ({ currentChat, currentuser, }) => {
+const ChatContainer = ({ currentChat, currentuser, socket}) => {
   const [messages, setMessages] = useState([]);
-//   const [arrivalMessage, setArrivalMessage] = useState(null);
-//   const scrollRef = useRef();
+  const [arrivalMessage, setArrivalMessage] = useState(null);
+  const scrollRef = useRef();
 
   useEffect(() => {
     async function func() {
@@ -32,43 +32,43 @@ const ChatContainer = ({ currentChat, currentuser, }) => {
 
   const handleSendMsg = async (msg) => {
     
-    // const data = await JSON.parse(
-    //   localStorage.getItem("chat-app-user")
-    // );
-    // socket.current.emit("send-msg", {
-    //   to: currentChat._id,
-    //   from: data._id,
-    //   msg,
-    // });
+    const data = await JSON.parse(
+      localStorage.getItem("chat-app-user")
+    );
+    socket.current.emit("send-msg", {
+      to: currentChat._id,
+      from: data._id,
+      msg,
+    });
 
     await axios.post("http://localhost:3000/api/messages/addmessage", {
       from: currentuser._id,
       to: currentChat._id,
       message: msg,
     });
-    // const msgs = [...messages];
-    // msgs.push({ fromSelf: true, message: msg });
-    // setMessages(msgs);
+    const msgs = [...messages];
+    msgs.push({ fromSelf: true, message: msg });
+    setMessages(msgs);
   };
 
-//   useEffect(() => {
-//     if (socket.current) {
-//       socket.current.on("msg-receive", (msg) => {
-//         setArrivalMessage({ fromSelf: false, message: msg });
-//       });
-//     }
+  useEffect(() => {
+    if (socket.current) {
+      socket.current.on("msg-receive", (msg) => {
+        setArrivalMessage({ fromSelf: false, message: msg });
+      });
+    }
 
-//   }, []);
+  }, []);
 
-//   useEffect(() => {
-//     arrivalMessage && setMessages((prev) => {
-//       return [...prev, arrivalMessage];
-//     });
-//   }, [arrivalMessage]);
+  useEffect(() => {
+    arrivalMessage && setMessages((prev) => {
+      return [...prev, arrivalMessage];
+    });
+  }, [arrivalMessage]);
 
-//   useEffect(() => {
-//     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-//   }, [messages]);
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
 
   return (
