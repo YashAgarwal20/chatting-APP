@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import axios from 'axios';
 import Logout from '../components/Logout';
+import ChatInput from './ChatInput';
 
 
 
@@ -29,25 +30,25 @@ const ChatContainer = ({ currentChat, currentuser, socket }) => {
 
 
 
-//   const handleSendMsg = async (msg) => {
-//     const data = await JSON.parse(
-//       localStorage.getItem("chat-app-user")
-//     );
-//     socket.current.emit("send-msg", {
-//       to: currentChat._id,
-//       from: data._id,
-//       msg,
-//     });
+  const handleSendMsg = async (msg) => {
+    // const data = await JSON.parse(
+    //   localStorage.getItem("chat-app-user")
+    // );
+    // socket.current.emit("send-msg", {
+    //   to: currentChat._id,
+    //   from: data._id,
+    //   msg,
+    // });
 
-//     await axios.post(sendMessageRoute, {
-//       from: currentuser._id,
-//       to: currentChat._id,
-//       message: msg,
-//     });
-//     const msgs = [...messages];
-//     msgs.push({ fromSelf: true, message: msg });
-//     setMessages(msgs);
-//   };
+    // await axios.post(sendMessageRoute, {
+    //   from: currentuser._id,
+    //   to: currentChat._id,
+    //   message: msg,
+    // });
+    // const msgs = [...messages];
+    // msgs.push({ fromSelf: true, message: msg });
+    // setMessages(msgs);
+  };
 
 //   useEffect(() => {
 //     if (socket.current) {
@@ -101,7 +102,7 @@ const ChatContainer = ({ currentChat, currentuser, socket }) => {
                 );
               })} */}
             </div>
-            {/* <ChatInput handleSendMsg={handleSendMsg} /> */}
+            <ChatInput handleSendMsg={handleSendMsg} />
           </Container>
 
         )
