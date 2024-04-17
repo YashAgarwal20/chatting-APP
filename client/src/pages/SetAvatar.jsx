@@ -70,7 +70,7 @@ const SetAvatar=()=>
               data.push(buffer.toString("base64"));
             } catch (error) {
               console.error("Error fetching avatar:", error);
-            }
+            } 
           };
           setAvatars(data);
           setIsLoading(false);

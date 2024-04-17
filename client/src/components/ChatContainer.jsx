@@ -20,7 +20,7 @@ const ChatContainer = ({ currentChat, currentuser, socket}) => {
           from: currentuser._id,
           to: currentChat._id,
 
-        });
+        }); 
         setMessages(response.data);
       }
     };
@@ -77,6 +77,8 @@ const ChatContainer = ({ currentChat, currentuser, socket}) => {
         currentChat && (
 
           <Container>
+
+            {/* chat header section */}
             <div className='chat-header'>
               <div className='user-details'>
                 <div className='avatar'>
@@ -87,6 +89,10 @@ const ChatContainer = ({ currentChat, currentuser, socket}) => {
               </div>
               <Logout />
             </div>
+
+
+
+            {/* chat messaging section */}
             <div className='chat-messages'>
               {messages?.map((message) => {
                 return (
@@ -103,6 +109,9 @@ const ChatContainer = ({ currentChat, currentuser, socket}) => {
                 );
               })}
             </div>
+
+
+            {/* chat input section */}
             <ChatInput handleSendMsg={handleSendMsg} />
           </Container>
 

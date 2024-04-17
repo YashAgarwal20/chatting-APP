@@ -10,11 +10,15 @@ const ChatInput = ({handleSendMsg}) => {
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [msg, setMsg] = useState("");
 
+
+    //on clicking emojiicon enlarge it
     const handleEmojiPickerHideShow = () => {
         setShowEmojiPicker(!showEmojiPicker);
 
     }
 
+
+    //adding the emoji along with the typed message
     const handleEmojiClick = (emojiObject, event) => {
         let message = msg;
         message += emojiObject.emoji;

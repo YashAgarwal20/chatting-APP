@@ -30,12 +30,12 @@ const getAllMessage=async(req,res,next)=>{
         }).sort({updatedAt:1});
      const projectedMessages=messages.map((msg)=>{
         return {
-            formSelf:msg.sender.toString()===from,
+            fromSelf:msg.sender.toString()===from,
             message:msg.message.text,
 
         };
      });
-     res.json(projectedMessages);
+     res.json(projectedMessages); 
 
     } catch (error) {
         next(error);
